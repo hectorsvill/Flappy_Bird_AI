@@ -9,6 +9,8 @@ import random
 from pygame import Surface
 from pygame.surface import SurfaceType
 
+pygame.font.init()
+
 WIND_WIDTH = 500
 WIN_HEIGHT = 800
 
@@ -29,6 +31,7 @@ PIPE_IMG = create_surface('pipe.png')
 BASE_IMG = create_surface('base.png')
 BG_IMG = create_surface('bg.png')
 
+STAT_FONT = pygame.font.SysFont("cosmicsans", 50)
 
 class Bird:
     IMAGES = BIRD_IMGES
@@ -169,12 +172,14 @@ class Base:
         win.blit(self.IMG, (self.x2, self.y))
 
 
-def draw_window(win, bird, pipes, base):
+def draw_window(win, bird, pipes, base, score):
     win.blit(BG_IMG, (0, 0))
 
     for pipe in pipes:
         pipe.draw(win)
 
+    text = STAT_FONT.render("score: " + str(score), 1, (255, 255, 255))
+    win.blit(text, (WIND_WIDTH - 10 - text.get_width(), 10))
     base.draw(win)
 
     bird.draw(win)
@@ -184,7 +189,8 @@ def draw_window(win, bird, pipes, base):
 def main():
     bird = Bird(230, 350)
     base = Base(730)
-    pipes = [Pipe(700)]
+    PIPE_DISTANCE = 550
+    pipes = [Pipe(PIPE_DISTANCE)]
     win = pygame.display.set_mode((WIND_WIDTH, WIN_HEIGHT))
     clok = pygame.time.Clock()
 
@@ -204,7 +210,8 @@ def main():
         remove = []
         for pipe in pipes:
             if pipe.collide(bird):
-                pass
+                print(f"collision!\nScore: {score}")
+                run = False
 
             if pipe.x + pipe.PIPE_TOP.get_width() < 0:
                 remove.append(pipe)
@@ -217,13 +224,16 @@ def main():
 
         if add_pipe:
             score += 1
-            pipes.append(Pipe(700))
+            pipes.append(Pipe(PIPE_DISTANCE))
 
         for r in remove:
             pipes.remove(r)
 
+        if bird.y + bird.img.get_height() >= 730:
+            pass
+
         base.move()
-        draw_window(win, bird, pipes, base)
+        draw_window(win, bird, pipes, base, score)
 
     pygame.quit()
     quit()
