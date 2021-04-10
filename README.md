@@ -1,4 +1,5 @@
 # Flappy_Bird_AI
+Flappy bird game using a neural network to learn how to play.
 
 # Setup
 
