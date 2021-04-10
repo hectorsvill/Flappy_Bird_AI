@@ -1,5 +1,10 @@
-from typing import List, Union
+"""
+flappy_bird.py
 
+Flappy bird game using a neural network to learn how to play.
+
+Author: @hectorsvill
+"""
 import pygame
 import neat
 import os
