@@ -2,13 +2,8 @@ from typing import List, Union
 
 import pygame
 import neat
-import time
 import os
 import random
-
-from pygame import Surface
-from pygame.surface import SurfaceType
-
 pygame.font.init()
 
 WIND_WIDTH = 500
